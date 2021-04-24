@@ -107,8 +107,8 @@ export default class HostServerAdministration extends Component {
                     <p>Windows-Deployer VM Status:</p>
                     {this.state.getInfos}
                 </div>
-                <div>
-                    <button className="create-vm" onClick={this.createWindowsDeployerServer}>Create Windows-Deployer VM</button>
+                <div className='create-vm'>
+                    <button onClick={this.createWindowsDeployerServer}>Create Windows-Deployer VM</button>
                 </div>
             </Fragment>
         );
