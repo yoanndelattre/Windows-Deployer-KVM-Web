@@ -14,21 +14,11 @@ export default class HostServerAdministration extends Component {
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.getInfos(), 5000);
+        this.getWindowsDeployerServerName()
+        this.interval = setInterval(() => this.getWindowsDeployerServerName(), 5000);
     }
     componentWillUnmount() {
         clearInterval(this.interval);
-    }
-
-    getInfos = () => {
-        this.getWindowsDeployerServerName()
-        this.getWindowsDeployerServerStatus()
-        if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
-            this.setState({getInfos: this.state.getWindowsDeployerServerStatus})
-        }
-        else {
-            this.setState({getInfos: 'The Windows-Deployer VM does not exist'})
-        }
     }
     
     getWindowsDeployerServerName = () => {
@@ -40,10 +30,12 @@ export default class HostServerAdministration extends Component {
         })
         .then((res) => { 
             this.setState({getWindowsDeployerServerName: res.data.servers.[0].name})
+            this.getWindowsDeployerServerStatus()
         })
         .catch((err) => {
             console.error(err)
             this.setState({getWindowsDeployerServerName: ''})
+            this.getWindowsDeployerServerStatus()
         })
     }
     
@@ -56,48 +48,35 @@ export default class HostServerAdministration extends Component {
         })
         .then((res) => {
             this.setState({getWindowsDeployerServerStatus: res.data.servers.[0].state})
+            this.getInfos()
         })
         .catch((err) => {
             console.error(err)
             this.setState({getWindowsDeployerServerStatus: ''})
+            this.getInfos()
         })
     }
 
-    getWindowsDeployerServerID = () => {
+    getInfos = () => {
         if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
-            axios.get('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Auth-Token': localStorage.getItem('Secret_key')
-                }
-            })
-            .then((res) => {
-                this.setState({getWindowsDeployerServerID: res.data.servers.[0].id})
-                new Noty({
-                    text: 'Successful Vm ID retrieval',
-                    theme: 'bootstrap-v4',
-                    type: 'success',
-                    layout: 'bottomCenter',
-                }).show();
-            })
-            .catch((err) => {
-                console.error(err)
-                new Noty({
-                    text: 'Error',
-                    theme: 'bootstrap-v4',
-                    type: 'error',
-                    layout: 'bottomCenter',
-                }).show();
-            })
+            this.setState({getInfos: this.state.getWindowsDeployerServerStatus})
         }
         else {
-            new Noty({
-                text: 'The Windows-Deployer Vm already exists',
-                theme: 'bootstrap-v4',
-                type: 'error',
-                layout: 'bottomCenter',
-            }).show();
+            this.setState({getInfos: 'The Windows-Deployer VM does not exist'})
         }
+    }
+
+    initWindowsDeployerServer = () => {
+        this.createWindowsDeployerServer()
+        setTimeout(() => {
+            this.getWindowsDeployerServerName()
+        }, 2000);
+        setTimeout(() => {
+            this.getWindowsDeployerServerID()
+        }, 2500);
+        setTimeout(() => {
+            this.enableCloudInit()
+        }, 3000);
     }
 
     createWindowsDeployerServer = () => {
@@ -138,6 +117,43 @@ export default class HostServerAdministration extends Component {
         }
     }
 
+    getWindowsDeployerServerID = () => {
+        if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
+            axios.get('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Auth-Token': localStorage.getItem('Secret_key')
+                }
+            })
+            .then((res) => {
+                this.setState({getWindowsDeployerServerID: res.data.servers.[0].id})
+                new Noty({
+                    text: 'Successful Vm ID retrieval',
+                    theme: 'bootstrap-v4',
+                    type: 'success',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+            .catch((err) => {
+                console.error(err)
+                new Noty({
+                    text: 'Error',
+                    theme: 'bootstrap-v4',
+                    type: 'error',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+        }
+        else {
+            new Noty({
+                text: 'Error',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+    }
+
     enableCloudInit = () => {
         if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
             var data = '#!/bin/bash\ncurl -sSL https://github.com/yoanndelattre/Windows-Deployer-KVM-Scripts/raw/master/scripts-install/initial_setup.sh | bash'
@@ -168,7 +184,7 @@ export default class HostServerAdministration extends Component {
         }
         else {
             new Noty({
-                text: 'The Windows-Deployer Vm already exists',
+                text: 'Error',
                 theme: 'bootstrap-v4',
                 type: 'error',
                 layout: 'bottomCenter',
@@ -180,13 +196,11 @@ export default class HostServerAdministration extends Component {
         return (
             <Fragment>
                 <div className='vm-status'>
-                    <p>Windows-Deployer VM Status:</p>
-                    {this.state.getInfos}
+                    <p>Windows-Deployer VM Status: {this.state.getInfos}</p>
+
                 </div>
-                <div className='create-vm'>
-                    <button onClick={this.createWindowsDeployerServer}>1 Create Windows-Deployer VM</button>
-                    <button onClick={this.getWindowsDeployerServerID}>2 Get Vm ID</button>
-                    <button onClick={this.enableCloudInit}>3 Enable Cloud Init</button>
+                <div className='init-vm'>
+                    <button onClick={this.initWindowsDeployerServer}>Init Windows-Deployer VM</button>
                 </div>
             </Fragment>
         );
