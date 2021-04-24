@@ -62,7 +62,7 @@ export default class HostServerAdministration extends Component {
             this.setState({getInfos: this.state.getWindowsDeployerServerStatus})
         }
         else {
-            this.setState({getInfos: 'The Windows-Deployer VM does not exist'})
+            this.setState({getInfos: 'Does not exist'})
         }
     }
 
