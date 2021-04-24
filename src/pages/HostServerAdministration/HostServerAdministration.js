@@ -200,7 +200,7 @@ export default class HostServerAdministration extends Component {
 
                 </div>
                 <div className='init-vm'>
-                    <button onClick={this.initWindowsDeployerServer}>Init Windows-Deployer VM</button>
+                    <button onClick={this.initWindowsDeployerServer}>Initialize Windows-Deployer VM</button>
                 </div>
             </Fragment>
         );
