@@ -1,15 +1,24 @@
 .Access_key {
-    margin: 10px
+    margin: 10px;
+    display: inline-block;
 }
 
 .Secret_key {
-    margin: 10px
+    margin: 10px;
+    display: inline-block;
+}
+
+.Project_ID {
+    margin: 10px;
+    display: inline-block;
 }
 
 .submit_key {
-    margin: 10px
+    margin: 10px;
+    display: inline-block;
 }
 
 .remove_key {
-    margin: 10px
+    margin: 10px;
+    display: inline-block;
 }
