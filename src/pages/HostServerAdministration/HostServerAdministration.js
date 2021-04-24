@@ -9,6 +9,7 @@ export default class HostServerAdministration extends Component {
     state = {
         getWindowsDeployerServerName: '',
         getWindowsDeployerServerStatus: '',
+        getWindowsDeployerServerID: '',
         getInfos: ''
     }
 
@@ -62,6 +63,43 @@ export default class HostServerAdministration extends Component {
         })
     }
 
+    getWindowsDeployerServerID = () => {
+        if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
+            axios.get('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Auth-Token': localStorage.getItem('Secret_key')
+                }
+            })
+            .then((res) => {
+                this.setState({getWindowsDeployerServerID: res.data.servers.[0].id})
+                new Noty({
+                    text: 'Successful Vm ID retrieval',
+                    theme: 'bootstrap-v4',
+                    type: 'success',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+            .catch((err) => {
+                console.error(err)
+                new Noty({
+                    text: 'Error',
+                    theme: 'bootstrap-v4',
+                    type: 'error',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+        }
+        else {
+            new Noty({
+                text: 'The Windows-Deployer Vm already exists',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+    }
+
     createWindowsDeployerServer = () => {
         if (this.state.getWindowsDeployerServerName !== 'Windows-Deployer') {
             var data = {"name": "Windows-Deployer", "commercial_type": "GP1-S", "project": localStorage.getItem('Project_ID'), "image": "16152446-99ed-4795-9d3f-87ec2f5b891d"}
@@ -99,6 +137,44 @@ export default class HostServerAdministration extends Component {
             }).show();
         }
     }
+
+    enableCloudInit = () => {
+        if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
+            var data = '#!/bin/bash\ncurl -sSL https://github.com/yoanndelattre/Windows-Deployer-KVM-Scripts/raw/master/scripts-install/initial_setup.sh | bash'
+            axios.patch('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers/' + this.state.getWindowsDeployerServerID + '/user_data/cloud-init', data, {
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'X-Auth-Token': localStorage.getItem('Secret_key')
+                }
+            })
+            .then((res) => {
+                console.log(res)
+                new Noty({
+                    text: 'Cloud Init is well activated',
+                    theme: 'bootstrap-v4',
+                    type: 'success',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+            .catch((err) => {
+                console.error(err)
+                new Noty({
+                    text: 'Error',
+                    theme: 'bootstrap-v4',
+                    type: 'error',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+        }
+        else {
+            new Noty({
+                text: 'The Windows-Deployer Vm already exists',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+    }
    
     render() {
         return (
@@ -108,7 +184,9 @@ export default class HostServerAdministration extends Component {
                     {this.state.getInfos}
                 </div>
                 <div className='create-vm'>
-                    <button onClick={this.createWindowsDeployerServer}>Create Windows-Deployer VM</button>
+                    <button onClick={this.createWindowsDeployerServer}>1 Create Windows-Deployer VM</button>
+                    <button onClick={this.getWindowsDeployerServerID}>2 Get Vm ID</button>
+                    <button onClick={this.enableCloudInit}>3 Enable Cloud Init</button>
                 </div>
             </Fragment>
         );
