@@ -3,6 +3,7 @@ import axios from 'axios'
 import Noty from 'noty';
 import '../../../node_modules/noty/lib/noty.css';
 import '../../../node_modules/noty/lib/themes/bootstrap-v4.css';
+import './Windows10VMAdministration.css'
 
 export default class Windows10VMAdministration extends Component {
 
@@ -367,16 +368,16 @@ export default class Windows10VMAdministration extends Component {
                     <p>Connect Command Spice: {this.state.getConnectCommand}</p>
                 </div>
                 <div className='starting-win10'>
-                    <button onClick={this.startingWin10}>Start Windows10</button>
+                    <button className='starting-win10-button' onClick={this.startingWin10}>Start Windows10</button>
                 </div>
                 <div className='shutting-win10'>
-                    <button onClick={this.shuttingWin10}>Shutdown Windows10</button>
+                    <button className='shutting-win10-button' onClick={this.shuttingWin10}>Shutdown Windows10</button>
                 </div>
                 <div className='force-shutting-win10'>
-                    <button onClick={this.forceShuttingWin10}>Force Shutdown Windows10</button>
+                    <button className='force-shutting-win10-button' onClick={this.forceShuttingWin10}>Force Shutdown Windows10</button>
                 </div>
                 <div className='rebooting-win10'>
-                    <button onClick={this.RebootingWin10}>Reboot Windows10</button>
+                    <button className='rebooting-win10-button' onClick={this.RebootingWin10}>Reboot Windows10</button>
                 </div>
            </Fragment>
         )

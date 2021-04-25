@@ -63,9 +63,9 @@ export default class APIScaleway extends Component {
                     <label className="Project_ID">
                         Project ID: <input name="Project_ID" value={this.state.Project_ID} onChange={this.handleChangeProject_ID}/>
                     </label>
-                    <button className="submit_key" type="submit">Sign In</button>
+                    <button className="submit_key" type="submit">Register</button>
                 </form>
-                <button className="remove_key" onClick={this.removeKey}>Remove API keys</button>
+                <button className="remove_key" onClick={this.removeKey}>Remove Keys</button>
             </Fragment>
         );
     }

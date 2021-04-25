@@ -14,11 +14,29 @@
 }
 
 .submit_key {
-    margin: 10px;
+    background-color: #56af3b;
+    border: none;
+    color: white;
+    padding: 7px 25px;
+    margin : 12px;
+    text-align: center;
+    text-decoration: none;
     display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 30px;
 }
 
 .remove_key {
-    margin: 10px;
+    background-color: #c52828;
+    border: none;
+    color: white;
+    padding: 7px 25px;
+    margin : 12px;
+    text-align: center;
+    text-decoration: none;
     display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 30px;
 }

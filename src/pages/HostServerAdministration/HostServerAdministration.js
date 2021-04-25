@@ -3,6 +3,7 @@ import axios from 'axios';
 import Noty from 'noty';
 import '../../../node_modules/noty/lib/noty.css';
 import '../../../node_modules/noty/lib/themes/bootstrap-v4.css';
+import './HostServerAdministration.css'
  
 export default class HostServerAdministration extends Component {
 
@@ -592,16 +593,16 @@ export default class HostServerAdministration extends Component {
                     <p>SSH Connect: {this.showSshCommand()}</p>
                 </div>
                 <div className='init-vm'>
-                    <button onClick={this.initWindowsDeployerServer}>Initialize Windows-Deployer VM</button>
+                    <button className="init-vm-button" onClick={this.initWindowsDeployerServer}>Initialize Windows-Deployer VM</button>
                 </div>
                 <div className='starting-vm'>
-                    <button onClick={this.startingWindowsDeployerServer}>Start Windows-Deployer VM</button>
+                    <button className="starting-vm-button" onClick={this.startingWindowsDeployerServer}>Start Windows-Deployer VM</button>
                 </div>
                 <div className='stopping-vm'>
-                    <button onClick={this.stoppingWindowsDeployerServer}>Stop Windows-Deployer VM</button>
+                    <button className="stopping-vm-button" onClick={this.stoppingWindowsDeployerServer}>Stop Windows-Deployer VM</button>
                 </div>
                 <div className='deleting-vm'>
-                    <button onClick={this.deletingWindowsDeployerServer}>Delete Windows-Deployer VM</button>
+                    <button className="deleting-vm-button" onClick={this.deletingWindowsDeployerServer}>Delete Windows-Deployer VM</button>
                 </div>
             </Fragment>
         );
