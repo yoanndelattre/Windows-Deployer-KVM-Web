@@ -12,7 +12,8 @@ export default class HostServerAdministration extends Component {
         getWindowsDeployerServerIp: 'unknown',
         getWindowsDeployerServerID: '',
         getInfos: 'unknown',
-        getWindowsDeployerVolumeID: ''
+        getWindowsDeployerVolumeID: '',
+        getCloudInit: ''
     }
 
     componentDidMount() {
@@ -117,11 +118,14 @@ export default class HostServerAdministration extends Component {
             this.getWindowsDeployerServerID()
         }, 2500);
         setTimeout(() => {
-            this.enableCloudInit()
+            this.getCloudInit()
         }, 3500);
         setTimeout(() => {
-            this.startWindowsDeployerServer()
+            this.enableCloudInit()
         }, 4500);
+        setTimeout(() => {
+            this.startWindowsDeployerServer()
+        }, 5500);
         setTimeout(() => {
             new Noty({
                 text: 'Installation takes an average of 4 minutes. Please do not stop Windows-Deployer Vm.',
@@ -129,7 +133,7 @@ export default class HostServerAdministration extends Component {
                 type: 'alert',
                 layout: 'bottomCenter',
             }).show();
-        }, 5200);
+        }, 6200);
     }
 
     createWindowsDeployerServer = () => {
@@ -207,19 +211,18 @@ export default class HostServerAdministration extends Component {
         }
     }
 
-    enableCloudInit = () => {
+    getCloudInit = () => {
         if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
-            var data = '#!/bin/bash\ncurl -sSL https://github.com/yoanndelattre/Windows-Deployer-KVM-Scripts/raw/master/scripts-install/initial_setup.sh | bash'
-            axios.patch('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers/' + this.state.getWindowsDeployerServerID + '/user_data/cloud-init', data, {
+            axios.get('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers/' + this.state.getWindowsDeployerServerID + '/user_data', {
                 headers: {
                     'Content-Type': 'text/plain',
                     'X-Auth-Token': localStorage.getItem('Secret_key')
                 }
             })
             .then((res) => {
-                console.log(res)
+                this.setState({getCloudInit: res.data.user_data.[0]})
                 new Noty({
-                    text: 'Cloud Init is well activated',
+                    text: 'Successful User_Data retrieval',
                     theme: 'bootstrap-v4',
                     type: 'success',
                     layout: 'bottomCenter',
@@ -234,6 +237,54 @@ export default class HostServerAdministration extends Component {
                     layout: 'bottomCenter',
                 }).show();
             })
+        }
+        else {
+            new Noty({
+                text: 'The Windows-Deployer Vm does not exist',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+    }
+
+    enableCloudInit = () => {
+        if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
+            if (this.state.getCloudInit !== 'cloud-init') {
+                var data = '#!/bin/bash\ncurl -sSL https://github.com/yoanndelattre/Windows-Deployer-KVM-Scripts/raw/master/scripts-install/initial_setup.sh | bash'
+                axios.patch('https://api.scaleway.com/instance/v1/zones/fr-par-1/servers/' + this.state.getWindowsDeployerServerID + '/user_data/cloud-init', data, {
+                    headers: {
+                        'Content-Type': 'text/plain',
+                        'X-Auth-Token': localStorage.getItem('Secret_key')
+                    }
+                })
+                .then((res) => {
+                    console.log(res)
+                    new Noty({
+                        text: 'Cloud Init is well activated',
+                        theme: 'bootstrap-v4',
+                        type: 'success',
+                        layout: 'bottomCenter',
+                    }).show();
+                })
+                .catch((err) => {
+                    console.error(err)
+                    new Noty({
+                        text: 'Error',
+                        theme: 'bootstrap-v4',
+                        type: 'error',
+                        layout: 'bottomCenter',
+                    }).show();
+                })
+            }
+            else {
+                new Noty({
+                    text: 'Cloud Init is already activated',
+                    theme: 'bootstrap-v4',
+                    type: 'error',
+                    layout: 'bottomCenter',
+                }).show();
+            }
         }
         else {
             new Noty({
