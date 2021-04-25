@@ -129,7 +129,7 @@ export default class Windows10VMAdministration extends Component {
                 type: 'alert',
                 layout: 'bottomCenter',
             }).show();
-        }, 2000);
+        }, 5000);
     }
 
     shutWin10 = () => {
@@ -204,7 +204,7 @@ export default class Windows10VMAdministration extends Component {
                 type: 'alert',
                 layout: 'bottomCenter',
             }).show();
-        }, 2000);
+        }, 3000);
     }
 
     forceShutWin10 = () => {
@@ -279,7 +279,7 @@ export default class Windows10VMAdministration extends Component {
                 type: 'alert',
                 layout: 'bottomCenter',
             }).show();
-        }, 2000);
+        }, 3000);
     }
 
     RebootWin10 = () => {
@@ -354,7 +354,7 @@ export default class Windows10VMAdministration extends Component {
                 type: 'alert',
                 layout: 'bottomCenter',
             }).show();
-        }, 2000);
+        }, 3000);
     }
 
     render () {
