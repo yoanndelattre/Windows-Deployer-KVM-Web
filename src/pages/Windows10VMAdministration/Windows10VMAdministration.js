@@ -207,6 +207,81 @@ export default class Windows10VMAdministration extends Component {
         }, 2000);
     }
 
+    forceShutWin10 = () => {
+        if (this.state.getWindows10Status === 'Communication with the remote server not possible') {
+            new Noty({
+                text: 'Communication with the remote server not possible',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+        else if (this.state.getWindows10Status === 'The Windows10 Vm does not exist') {
+            new Noty({
+                text: 'The Windows10 Vm does not exist',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+        else if (this.state.getWindows10Status === 'running\n') {
+            var data = 'Windows10'
+            axios.post('http://' + localStorage.getItem('getWindowsDeployerServerIp') + ':8080/forceShutdownVM', data, {
+                headers: {
+                    'Auth_Token': this.Auth_Token(),
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then((res) => {
+                console.log(res)
+                new Noty({
+                    text: 'The Windows10 Vm has been shutted with forcing',
+                    theme: 'bootstrap-v4',
+                    type: 'success',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+            .catch((err) => {
+                console.error(err)
+                new Noty({
+                    text: 'Error',
+                    theme: 'bootstrap-v4',
+                    type: 'error',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+        }
+        else {
+            new Noty({
+                text: 'The Windows10 Vm is in an unstable state or is already shutted',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+    }
+
+    forceShuttingWin10 = () => {
+        new Noty({
+            text: 'Please wait',
+            theme: 'bootstrap-v4',
+            type: 'alert',
+            layout: 'bottomCenter',
+        }).show();
+        this.getWindows10Status()
+        setTimeout(() => {
+            this.forceShutWin10()
+        }, 1000);
+        setTimeout(() => {
+            new Noty({
+                text: 'finished',
+                theme: 'bootstrap-v4',
+                type: 'alert',
+                layout: 'bottomCenter',
+            }).show();
+        }, 2000);
+    }
+
     render () {
         return (
             <Fragment>
@@ -221,6 +296,9 @@ export default class Windows10VMAdministration extends Component {
                 </div>
                 <div className='shutting-win10'>
                     <button onClick={this.shuttingWin10}>Shutdown Windows10</button>
+                </div>
+                <div className='force-shutting-win10'>
+                    <button onClick={this.forceShuttingWin10}>Force Shutdown Windows10</button>
                 </div>
            </Fragment>
         )
