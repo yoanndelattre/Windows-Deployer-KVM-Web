@@ -103,6 +103,12 @@ export default class HostServerAdministration extends Component {
     }
 
     initWindowsDeployerServer = () => {
+        new Noty({
+            text: 'Please wait',
+            theme: 'bootstrap-v4',
+            type: 'alert',
+            layout: 'bottomCenter',
+        }).show();
         this.createWindowsDeployerServer()
         setTimeout(() => {
             this.getWindowsDeployerServerName()
@@ -120,7 +126,7 @@ export default class HostServerAdministration extends Component {
             new Noty({
                 text: 'Installation takes an average of 4 minutes. Please do not stop Windows-Deployer Vm.',
                 theme: 'bootstrap-v4',
-                type: 'information',
+                type: 'alert',
                 layout: 'bottomCenter',
             }).show();
         }, 5200);
@@ -288,6 +294,12 @@ export default class HostServerAdministration extends Component {
     }
 
     startingWindowsDeployerServer = () => {
+        new Noty({
+            text: 'Please wait',
+            theme: 'bootstrap-v4',
+            type: 'alert',
+            layout: 'bottomCenter',
+        }).show();
         this.getWindowsDeployerServerName()
         setTimeout(() => {
             this.getWindowsDeployerServerID()
@@ -295,6 +307,14 @@ export default class HostServerAdministration extends Component {
         setTimeout(() => {
             this.startWindowsDeployerServer()
         }, 1500);
+        setTimeout(() => {
+            new Noty({
+                text: 'finished',
+                theme: 'bootstrap-v4',
+                type: 'alert',
+                layout: 'bottomCenter',
+            }).show();
+        }, 2500);
     }
 
     stopWindowsDeployerServer = () => {
@@ -346,6 +366,12 @@ export default class HostServerAdministration extends Component {
     }
 
     stoppingWindowsDeployerServer = () => {
+        new Noty({
+            text: 'Please wait',
+            theme: 'bootstrap-v4',
+            type: 'alert',
+            layout: 'bottomCenter',
+        }).show();
         this.getWindowsDeployerServerName()
         setTimeout(() => {
             this.getWindowsDeployerServerID()
@@ -353,6 +379,14 @@ export default class HostServerAdministration extends Component {
         setTimeout(() => {
             this.stopWindowsDeployerServer()
         }, 1500);
+        setTimeout(() => {
+            new Noty({
+                text: 'finished',
+                theme: 'bootstrap-v4',
+                type: 'alert',
+                layout: 'bottomCenter',
+            }).show();
+        }, 2500);
     }
 
     deleteWindowsDeployerServer = () => {
@@ -465,6 +499,12 @@ export default class HostServerAdministration extends Component {
     }
 
     deletingWindowsDeployerServer = () => {
+        new Noty({
+            text: 'Please wait',
+            theme: 'bootstrap-v4',
+            type: 'alert',
+            layout: 'bottomCenter',
+        }).show();
         this.getWindowsDeployerServerName()
         setTimeout(() => {
             this.getWindowsDeployerServerID()
@@ -478,6 +518,14 @@ export default class HostServerAdministration extends Component {
         setTimeout(() => {
             this.deleteWindowsDeployerVolume()
         }, 4500);
+        setTimeout(() => {
+            new Noty({
+                text: 'finished',
+                theme: 'bootstrap-v4',
+                type: 'alert',
+                layout: 'bottomCenter',
+            }).show();
+        }, 5500);
     }
    
     render() {
