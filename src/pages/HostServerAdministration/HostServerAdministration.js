@@ -67,12 +67,14 @@ export default class HostServerAdministration extends Component {
             }
         })
         .then((res) => {
-            this.setState({getWindowsDeployerServerStatus: res.data.servers.[0].public_ip.address})
+            this.setState({getWindowsDeployerServerIp: res.data.servers.[0].public_ip.address})
+            localStorage.setItem('getWindowsDeployerServerIp', this.state.getWindowsDeployerServerIp)
             this.getInfos()
         })
         .catch((err) => {
             console.error(err)
-            this.setState({getWindowsDeployerServerStatus: ''})
+            this.setState({getWindowsDeployerServerIp: 'unknown'})
+            localStorage.setItem('getWindowsDeployerServerIp', this.state.getWindowsDeployerServerIp)
             this.getInfos()
         })
     }
