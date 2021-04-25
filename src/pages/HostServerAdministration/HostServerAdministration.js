@@ -81,7 +81,12 @@ export default class HostServerAdministration extends Component {
 
     showSshCommand = () => {
         if (this.state.getWindowsDeployerServerIp !== 'unknown') {
-            return ('ssh root@' + this.state.getWindowsDeployerServerIp)
+            if (this.state.getWindowsDeployerServerStatus === 'running') {
+                return ('ssh root@' + this.state.getWindowsDeployerServerIp)
+            }
+            else {
+                return 'unknown'
+            }
         }
         else {
             return 'unknown'
