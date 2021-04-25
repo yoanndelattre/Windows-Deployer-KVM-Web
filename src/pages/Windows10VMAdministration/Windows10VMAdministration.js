@@ -1,5 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import axios from 'axios'
+import Noty from 'noty';
+import '../../../node_modules/noty/lib/noty.css';
+import '../../../node_modules/noty/lib/themes/bootstrap-v4.css';
 
 export default class Windows10VMAdministration extends Component {
 
@@ -29,9 +32,9 @@ export default class Windows10VMAdministration extends Component {
             }
         })
         .then((res) => {
-            if (res.data === '') { // Error
-                this.getConnectCommand()
-                console.error("getWindows10Status is null")
+            if (res.data === '') { // Does not exist
+                console.error('The Windows10 Vm does not exist')
+                this.setState({getWindows10Status: 'The Windows10 Vm does not exist'})
             }
             else {
                 this.setState({getWindows10Status: res.data})
@@ -40,8 +43,7 @@ export default class Windows10VMAdministration extends Component {
         })
         .catch((err) => {
             console.error(err)
-            this.setState({getWindows10Status: 'unknown'})
-            this.getConnectCommand()
+            this.setState({getWindows10Status: 'Communication with the remote server not possible'})
         })
     }
 
@@ -55,6 +57,81 @@ export default class Windows10VMAdministration extends Component {
         }
     }
 
+    startWin10 = () => {
+        if (this.state.getWindows10Status === 'Communication with the remote server not possible') {
+            new Noty({
+                text: 'Communication with the remote server not possible',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+        else if (this.state.getWindows10Status === 'The Windows10 Vm does not exist') {
+            new Noty({
+                text: 'The Windows10 Vm does not exist',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+        else if (this.state.getWindows10Status === 'shut\n') {
+            var data = 'Windows10'
+            axios.post('http://' + localStorage.getItem('getWindowsDeployerServerIp') + ':8080/startVM', data, {
+                headers: {
+                    'Auth_Token': this.Auth_Token(),
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then((res) => {
+                console.log(res)
+                new Noty({
+                    text: 'The Windows10 Vm has been started',
+                    theme: 'bootstrap-v4',
+                    type: 'success',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+            .catch((err) => {
+                console.error(err)
+                new Noty({
+                    text: 'Error',
+                    theme: 'bootstrap-v4',
+                    type: 'error',
+                    layout: 'bottomCenter',
+                }).show();
+            })
+        }
+        else {
+            new Noty({
+                text: 'The Windows10 Vm is in an unstable state or is already started',
+                theme: 'bootstrap-v4',
+                type: 'error',
+                layout: 'bottomCenter',
+            }).show();
+        }
+    }
+
+    startingWin10 = () => {
+        new Noty({
+            text: 'Please wait',
+            theme: 'bootstrap-v4',
+            type: 'alert',
+            layout: 'bottomCenter',
+        }).show();
+        this.getWindows10Status()
+        setTimeout(() => {
+            this.startWin10()
+        }, 1000);
+        setTimeout(() => {
+            new Noty({
+                text: 'finished',
+                theme: 'bootstrap-v4',
+                type: 'alert',
+                layout: 'bottomCenter',
+            }).show();
+        }, 2000);
+    }
+
     render () {
         return (
             <Fragment>
@@ -63,6 +140,9 @@ export default class Windows10VMAdministration extends Component {
                 </div>
                 <div className='win10-connect-command'>
                     <p>Connect Command Spice: {this.state.getConnectCommand}</p>
+                </div>
+                <div className='starting-win10'>
+                    <button onClick={this.startingWin10}>Start Windows10</button>
                 </div>
            </Fragment>
         )
