@@ -8,10 +8,10 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <div class="conteneur-flexbox">
-          <div class="flexbox-1"><ApiScaleway/></div>
-          <div class="flexbox-2"><HostServerAdministration/></div>
-          <div class="flexbox-3"><Windows10VMAdministration/></div>
+        <div className="conteneur-flexbox">
+          <div className="flexbox-1"><ApiScaleway/></div>
+          <div className="flexbox-2"><HostServerAdministration/></div>
+          <div className="flexbox-3"><Windows10VMAdministration/></div>
         </div>
       </Fragment>
     );
