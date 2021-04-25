@@ -79,6 +79,15 @@ export default class HostServerAdministration extends Component {
         })
     }
 
+    showSshCommand = () => {
+        if (this.state.getWindowsDeployerServerIp !== 'unknown') {
+            return ('ssh root@' + this.state.getWindowsDeployerServerIp)
+        }
+        else {
+            return 'unknown'
+        }
+    }
+
     getInfos = () => {
         if (this.state.getWindowsDeployerServerName === 'Windows-Deployer') {
             this.setState({getInfos: this.state.getWindowsDeployerServerStatus})
@@ -473,7 +482,10 @@ export default class HostServerAdministration extends Component {
                     <p>Windows-Deployer VM Status: {this.state.getInfos}</p>
                 </div>
                 <div className='vm-ip'>
-                    <p>Windows-Deployer VM IP: {localStorage.getItem('getWindowsDeployerServerIp')}</p>
+                    <p>VM IP: {localStorage.getItem('getWindowsDeployerServerIp')}</p>
+                </div>
+                <div className='vm-ssh-command'>
+                    <p>SSH Connect: {this.showSshCommand()}</p>
                 </div>
                 <div className='init-vm'>
                     <button onClick={this.initWindowsDeployerServer}>Initialize Windows-Deployer VM</button>
