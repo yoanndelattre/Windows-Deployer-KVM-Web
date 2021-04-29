@@ -1,0 +1,17 @@
+name: "Trigger Windows-Deployer-KVM-App Workflow"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Trigger Windows-Deployer-KVM-App Workflow"
+      uses: peter-evans/repository-dispatch@master
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        repository: yoanndelattre/Windows-Deployer-KVM-App
+        event-type: "Trigger from Windows-Deployer-KVM-Web Workflow"
