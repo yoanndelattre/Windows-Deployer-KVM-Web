@@ -1,3 +1,21 @@
+.docs-link {
+    text-decoration: none;
+    color: #1d4870;
+    position: absolute;
+    top: 25%;
+    right: 46%;
+    width: 112px;
+    font-size: 16px;
+    background-color: #a7ccf0;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.docs-link:visited {
+    color: #1d4870;
+}
+
 .conteneur-flexbox{
     display : -webkit-box;
     display : -ms-flexbox;
