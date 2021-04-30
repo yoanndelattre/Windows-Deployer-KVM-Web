@@ -365,7 +365,7 @@ export default class Windows10VMAdministration extends Component {
                     <p>Windows 10 Vm Status: {this.state.getWindows10Status}</p>
                 </div>
                 <div className='win10-connect-command'>
-                    <p>Connect Command Spice: {this.state.getConnectCommand}</p>
+                    <p>Connect Command Virt-viewer: {this.state.getConnectCommand}</p>
                 </div>
                 <div className='starting-win10'>
                     <button className='starting-win10-button' onClick={this.startingWin10}>Start Windows10</button>
