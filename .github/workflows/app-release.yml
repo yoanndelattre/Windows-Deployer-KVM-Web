@@ -14,4 +14,4 @@ jobs:
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         repository: yoanndelattre/Windows-Deployer-KVM-App
-        event-type: ${{ github.action }} (from Windows-Deployer-KVM-Web Workflow)
+        event-type: ${{ github.workflow }} (from Windows-Deployer-KVM-Web Workflow)
