@@ -112,60 +112,6 @@ export default class Windows10VMAdministration extends Component {
         }
     }
 
-    UpdateXML = () => {
-        if (this.state.getWindows10Status === 'Communication with the remote server not possible') {
-            new Noty({
-                text: 'Communication with the remote server not possible',
-                theme: 'bootstrap-v4',
-                type: 'error',
-                layout: 'bottomCenter',
-            }).show();
-        }
-        else if (this.state.getWindows10Status === 'The Windows10 Vm does not exist') {
-            new Noty({
-                text: 'The Windows10 Vm does not exist',
-                theme: 'bootstrap-v4',
-                type: 'error',
-                layout: 'bottomCenter',
-            }).show();
-        }
-        else if (this.state.getWindows10Status === 'shut\n') {
-            var data = 'Windows10'
-            axios.post('http://' + localStorage.getItem('getWindowsDeployerServerIp') + ':8080/updateXML', data, {
-                headers: {
-                    'Auth_Token': this.Auth_Token(),
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
-            .then((res) => {
-                console.log(res)
-                new Noty({
-                    text: 'The Windows10 Vm config has been updated',
-                    theme: 'bootstrap-v4',
-                    type: 'success',
-                    layout: 'bottomCenter',
-                }).show();
-            })
-            .catch((err) => {
-                console.error(err)
-                new Noty({
-                    text: 'Error',
-                    theme: 'bootstrap-v4',
-                    type: 'error',
-                    layout: 'bottomCenter',
-                }).show();
-            })
-        }
-        else {
-            new Noty({
-                text: 'The Windows10 Vm is in an unstable state or is already started',
-                theme: 'bootstrap-v4',
-                type: 'error',
-                layout: 'bottomCenter',
-            }).show();
-        }
-    }
-
     startingWin10 = () => {
         new Noty({
             text: 'Please wait',
@@ -175,11 +121,8 @@ export default class Windows10VMAdministration extends Component {
         }).show();
         this.getWindows10Status()
         setTimeout(() => {
-            this.UpdateXML()
-        }, 1000);
-        setTimeout(() => {
             this.startWin10()
-        }, 2000);
+        }, 1000);
         setTimeout(() => {
             new Noty({
                 text: 'finished',
@@ -187,7 +130,7 @@ export default class Windows10VMAdministration extends Component {
                 type: 'alert',
                 layout: 'bottomCenter',
             }).show();
-        }, 6000);
+        }, 5000);
     }
 
     shutWin10 = () => {
