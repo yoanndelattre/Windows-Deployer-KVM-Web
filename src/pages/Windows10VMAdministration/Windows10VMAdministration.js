@@ -130,7 +130,8 @@ export default class Windows10VMAdministration extends Component {
             }).show();
         }
         else if (this.state.getWindows10Status === 'shut\n') {
-            axios.post('http://' + localStorage.getItem('getWindowsDeployerServerIp') + ':8080/updateXML', {
+            var data = 'Windows10'
+            axios.post('http://' + localStorage.getItem('getWindowsDeployerServerIp') + ':8080/updateXML', data, {
                 headers: {
                     'Auth_Token': this.Auth_Token(),
                     'Content-Type': 'application/x-www-form-urlencoded'
