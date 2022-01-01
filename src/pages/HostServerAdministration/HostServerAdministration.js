@@ -33,7 +33,7 @@ export default class HostServerAdministration extends Component {
             }
         })
         .then((res) => { 
-            this.setState({getWindowsDeployerServerName: res.data.servers.[0].name})
+            this.setState({getWindowsDeployerServerName: res.data.servers[0].name})
             this.getWindowsDeployerServerStatus()
         })
         .catch((err) => {
@@ -51,7 +51,7 @@ export default class HostServerAdministration extends Component {
             }
         })
         .then((res) => {
-            this.setState({getWindowsDeployerServerStatus: res.data.servers.[0].state})
+            this.setState({getWindowsDeployerServerStatus: res.data.servers[0].state})
             this.getWindowsDeployerServerIp()
         })
         .catch((err) => {
@@ -69,7 +69,7 @@ export default class HostServerAdministration extends Component {
             }
         })
         .then((res) => {
-            this.setState({getWindowsDeployerServerIp: res.data.servers.[0].public_ip.address})
+            this.setState({getWindowsDeployerServerIp: res.data.servers[0].public_ip.address})
             localStorage.setItem('getWindowsDeployerServerIp', this.state.getWindowsDeployerServerIp)
             this.getInfos()
         })
@@ -184,7 +184,7 @@ export default class HostServerAdministration extends Component {
                 }
             })
             .then((res) => {
-                this.setState({getWindowsDeployerServerID: res.data.servers.[0].id})
+                this.setState({getWindowsDeployerServerID: res.data.servers[0].id})
                 new Noty({
                     text: 'Successful Vm ID retrieval',
                     theme: 'bootstrap-v4',
@@ -221,7 +221,7 @@ export default class HostServerAdministration extends Component {
                 }
             })
             .then((res) => {
-                this.setState({getCloudInit: res.data.user_data.[0]})
+                this.setState({getCloudInit: res.data.user_data[0]})
                 new Noty({
                     text: 'Successful User_Data retrieval',
                     theme: 'bootstrap-v4',
@@ -504,7 +504,7 @@ export default class HostServerAdministration extends Component {
             }
         })
         .then((res) => {
-            this.setState({getWindowsDeployerVolumeID: res.data.volumes.[0].id})
+            this.setState({getWindowsDeployerVolumeID: res.data.volumes[0].id})
             new Noty({
                 text: 'Successful Volume ID retrieval',
                 theme: 'bootstrap-v4',
